@@ -21,6 +21,20 @@ const toggleSelect = () => {
 	});
 }
 
+const removeEmptyFields = () => {
+	const submitButton = document.querySelector('#remove-empty-fields');
+
+	submitButton.addEventListener('click', event => {
+		event.preventDefault();
+		const form = document.querySelector('form');
+		const buttons = form.querySelectorAll('button');
+		buttons.forEach(button => button.parentNode.removeChild(button));
+		const formButton = form.querySelector('[type="submit"]');
+		formButton.click();
+	});
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   toggleSelect();
+	removeEmptyFields();
 });

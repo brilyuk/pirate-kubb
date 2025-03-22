@@ -26,11 +26,23 @@
 	height: 100%;
 }
 
-.uploader button {
+.uploader uc-simple-btn button {
 	margin-bottom: -50px;
+	padding: 10px 35px;
+	background-color: #88cdd5;
 }
 
-uc-simple-btn {
+.uploader uc-simple-btn button uc-icon {
+	display: none;
+}
+
+.uploader uc-simple-btn button span {
+	font-family: "Myriad Pro", "Tahoma", sans-serif;
+	font-size: 16px;
+	color: #fff;
+}
+
+.uploader uc-simple-btn {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -38,7 +50,7 @@ uc-simple-btn {
 	bottom: 0;
 }
 
-uc-drop-area {
+.uploader uc-drop-area {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -47,10 +59,10 @@ uc-drop-area {
 	border-radius: 7px;
 }
 
-uc-drop-area:hover {
+.uploader uc-drop-area:hover {
 	background-color: transparent;
 }
 
-uc-drop-area:active {
+.uploader uc-drop-area:active {
 	background-color: transparent;
 }
