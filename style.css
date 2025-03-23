@@ -1,3 +1,17 @@
+.faq__item.active .faq__item-icon-line_2 {
+  transform: rotate(0deg);
+}
+
+.faq__item.active .faq__item-text {
+  margin-top: 20px;
+  opacity: 1;
+  max-height: 1000px;
+}
+.w-webflow-badge {
+	display: None !important;
+	visibility: hidden !important;
+}
+
 .form-select__list {
 	display: none;
 	opacity: 0;
