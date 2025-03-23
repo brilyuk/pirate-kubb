@@ -45,8 +45,18 @@ const removeEmptyFields = () => {
 	});
 }
 
+const initWaves = () => {
+  gsap.to(".wave", {
+    duration: 5,
+    scaleX: 1.5,
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut"
+  });
+}
 document.addEventListener('DOMContentLoaded', () => {
 	toggleFaqItems();
   toggleSelect();
 	removeEmptyFields();
+	initWaves();
 });
