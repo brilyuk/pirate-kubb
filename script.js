@@ -97,7 +97,6 @@ const elementsAnimation = () => {
 
 const morphAnimation = () => {
   const shapes = document.querySelectorAll('.shape-morph');
-	console.log(shapes);
 	
   if (!shapes) return;
 
@@ -125,30 +124,34 @@ const morphAnimation = () => {
 }
 
 const modalToggle = () => {
-	const modal = document.querySelector('.modal');
-	if (!modal) return;
-
-	const modalClose = modal.querySelector('.modal__content-close');
-	const modalBg = modal.querySelector('.modal__backdrop');
+	const modals = document.querySelectorAll('.modal');
 	const modalButtons = document.querySelectorAll('[data-modal-target]');
 	
-	modalButtons.forEach(button => {
-		button.addEventListener('click', () => {
-			const modalTarget = button.dataset.modalTarget;
-			const modal = document.querySelector(`#${modalTarget}`);
-			modal.classList.add('open');
-			document.body.classList.add('modal-opened');
+	modals.forEach(modal => {
+		if (!modal) return;
+
+		const modalClose = modal.querySelector('.modal__content-close');
+		const modalBg = modal.querySelector('.modal__backdrop');
+		
+		
+		modalButtons.forEach(button => {
+			button.addEventListener('click', () => {
+				const modalTarget = button.dataset.modalTarget;
+				const modal = document.querySelector(`.modal#${modalTarget}`);				
+				modal.classList.add('open');
+				document.body.classList.add('modal-opened');
+			});
 		});
-	});
 
-	modalClose.addEventListener('click', () => {
-		modal.classList.remove('open');
-		document.body.classList.remove('modal-opened');
-	});
+		modalClose.addEventListener('click', () => {
+			modal.classList.remove('open');
+			document.body.classList.remove('modal-opened');
+		});
 
-	modalBg.addEventListener('click', () => {
-		modal.classList.remove('open');
-		document.body.classList.remove('modal-opened');
+		modalBg.addEventListener('click', () => {
+			modal.classList.remove('open');
+			document.body.classList.remove('modal-opened');
+		});
 	});
 }
 
