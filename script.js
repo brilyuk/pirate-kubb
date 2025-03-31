@@ -166,12 +166,15 @@ const modalToggle = () => {
 	});
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+window.onload = () => {
 	toggleFaqItems();
   toggleSelect();
 	removeEmptyFields();
-	wavesAnimation();
-	elementsAnimation();
-	morphAnimation();
+	setTimeout(() => {
+		wavesAnimation();
+		elementsAnimation();
+		morphAnimation();
+	}, 500);
+	
 	modalToggle();
-});
+}
