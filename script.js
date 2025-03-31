@@ -176,5 +176,5 @@ window.onload = () => {
 		wavesAnimation();
 		elementsAnimation();
 		morphAnimation();
-	}, 500);
+	}, 3000);
 }
