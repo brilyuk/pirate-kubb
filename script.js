@@ -170,11 +170,11 @@ window.onload = () => {
 	toggleFaqItems();
   toggleSelect();
 	removeEmptyFields();
+	modalToggle();
+
 	setTimeout(() => {
 		wavesAnimation();
 		elementsAnimation();
 		morphAnimation();
 	}, 500);
-	
-	modalToggle();
 }
