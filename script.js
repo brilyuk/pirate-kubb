@@ -166,12 +166,35 @@ const modalToggle = () => {
 	});
 }
 
+const videoToggle = () => {
+	const videoBox = document.querySelector(".video-box");
+	if (!videoBox) return;
+	
+	const image = videoBox.querySelector(".video-box__image");
+	const video = videoBox.querySelector(".video-box__video");
+	const iframe = video.querySelector("iframe");
+	const src = iframe.getAttribute("src");
+
+  if (image && video) {
+    image.addEventListener("click", function () {
+      image.classList.add("hiding");
+			if (src) {
+        const newSrc = src.replace('autoplay=0', 'autoplay=1');
+        iframe.setAttribute("src", newSrc);
+      }
+			setTimeout(() => {
+				image.classList.add("hide");
+			}, 500);
+    });
+  }
+}
+
 window.onload = () => {
 	toggleFaqItems();
   toggleSelect();
 	removeEmptyFields();
 	modalToggle();
-
+	videoToggle();
 	setTimeout(() => {
 		wavesAnimation();
 		elementsAnimation();
