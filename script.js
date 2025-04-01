@@ -12,6 +12,43 @@ const toggleFaqItems = () => {
 	});
 }
 
+const scrollToSection = () => {
+	const links = document.querySelectorAll('a[href*="#"]');
+	if (!links.length) return;
+
+	links.forEach(link => {
+		link.addEventListener('click', (e) => {
+			e.preventDefault();
+			const href = link.getAttribute('href');
+			const sectionId = href.replace('#', '');
+			const section = document.getElementById(sectionId);
+			const isHomePage = window.location.pathname === '/old-home';
+			
+			
+			if (isHomePage) {
+				if (section) {
+					section.scrollIntoView({ behavior: 'smooth' });
+				}
+			} else {			
+				sessionStorage.setItem('scrollToSection', sectionId);
+				window.location.href = '/old-home';
+			}
+		});
+	});
+
+	const savedSectionId = sessionStorage.getItem('scrollToSection');
+	if (savedSectionId) {
+		const section = document.getElementById(savedSectionId);
+		if (section) {
+			setTimeout(() => {
+				section.scrollIntoView({ behavior: 'smooth' });
+				sessionStorage.removeItem('scrollToSection');
+			}, 100);
+		}
+	}
+}
+
+
 const toggleSelect = () => {
 	const select = document.querySelector('.form-select');
 	if (!select) return;
@@ -36,6 +73,17 @@ const toggleSelect = () => {
 	});
 }
 
+const updatePageAfterSuccessForm = () => {
+	const modal = document.querySelector('.success-modal');
+	if (!modal) return;
+
+	const closeButton = modal.querySelector('.success-modal__content-close');
+	closeButton.addEventListener('click', (e) => {
+		e.preventDefault();
+		window.location.reload();
+	});
+}
+
 const removeEmptyFields = () => {
 	const submitButton = document.querySelector('#remove-empty-fields');
 	if (!submitButton) return;
@@ -43,9 +91,9 @@ const removeEmptyFields = () => {
 	submitButton.addEventListener('click', event => {
 		event.preventDefault();
 		const form = document.querySelector('form');
-		const buttons = form.querySelectorAll('button');
-		buttons.forEach(button => button.parentNode.removeChild(button));
 		const formButton = form.querySelector('[type="submit"]');
+		const buttons = form.querySelectorAll('button:not(.form__submit)');
+		buttons.forEach(button => button.parentNode.removeChild(button));
 		formButton.click();
 	});
 }
@@ -191,10 +239,13 @@ const videoToggle = () => {
 
 window.onload = () => {
 	toggleFaqItems();
+	scrollToSection();
   toggleSelect();
 	removeEmptyFields();
 	modalToggle();
 	videoToggle();
+	updatePageAfterSuccessForm();
+
 	setTimeout(() => {
 		wavesAnimation();
 		elementsAnimation();

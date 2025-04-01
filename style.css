@@ -80,3 +80,7 @@
 .uploader uc-drop-area:active {
 	background-color: transparent;
 }
+
+.contacts__form {
+	display: block !important;
+}
