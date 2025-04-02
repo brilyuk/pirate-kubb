@@ -84,3 +84,12 @@
 .contacts__form {
 	display: block !important;
 }
+
+@media (max-width: 767px) {
+	.uploader uc-simple-btn button {
+		margin-bottom: -80px;
+	}
+	.w-nav-overlay {
+  	top: 65%;
+  }
+}

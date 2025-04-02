@@ -177,11 +177,17 @@ const modalToggle = () => {
 	const openModal = (modal) => {
 		modal.classList.add('open');
 		document.body.classList.add('modal-opened');
+		
+		// Зупиняємо всі анімації
+		gsap.globalTimeline.pause();
 	}
 
 	const closeModal = (modal) => {
 		modal.classList.remove('open');
 		document.body.classList.remove('modal-opened');
+		
+		// Відновлюємо анімації
+		gsap.globalTimeline.resume();
 	}
 
 	const closeAllModals = () => {
