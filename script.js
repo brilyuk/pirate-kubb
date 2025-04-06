@@ -229,9 +229,19 @@ const videoToggle = () => {
 	const video = videoBox.querySelector("video");
 
 	if (image && video) {
+		// Додаємо атрибути для Safari
+		video.setAttribute('playsinline', '');
+		video.setAttribute('webkit-playsinline', '');
+		video.setAttribute('x5-playsinline', '');
+		video.setAttribute('x5-video-player-type', 'h5');
+		// video.setAttribute('x5-video-player-fullscreen', 'true');
+		// video.setAttribute('x5-video-orientation', 'portraint');
+
 		image.addEventListener("click", function () {
 			image.classList.add("hiding");
-			video.play();
+			video.play().catch(error => {
+				console.log('Помилка відтворення відео:', error);
+			});
 			setTimeout(() => {
 				image.classList.add("hide");
 			}, 500);
@@ -239,7 +249,9 @@ const videoToggle = () => {
 
 		video.addEventListener("click", function() {
 			if (video.paused) {
-				video.play();
+				video.play().catch(error => {
+					console.log('Помилка відтворення відео:', error);
+				});
 			} else {
 				video.pause();
 				image.classList.remove("hide");
