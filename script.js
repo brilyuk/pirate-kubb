@@ -1,6 +1,7 @@
 gsap.registerPlugin(ScrollTrigger);
 const header = document.querySelector(".header");
 const headroom = new Headroom(header);
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 
 const toggleFaqItems = () => {
@@ -227,21 +228,19 @@ const videoToggle = () => {
 	
 	const image = videoBox.querySelector(".video-box__image");
 	const video = videoBox.querySelector("video");
+	const source = document.createElement('source');
+
+	source.src = isMobile
+		? video.getAttribute('data-src-mobile')
+		: video.getAttribute('data-src-desktop');
+
+	source.type = 'video/mp4';
+	video.appendChild(source);	
 
 	if (image && video) {
-		// Додаємо атрибути для Safari
-		video.setAttribute('playsinline', '');
-		video.setAttribute('webkit-playsinline', '');
-		video.setAttribute('x5-playsinline', '');
-		video.setAttribute('x5-video-player-type', 'h5');
-		// video.setAttribute('x5-video-player-fullscreen', 'true');
-		// video.setAttribute('x5-video-orientation', 'portraint');
-
 		image.addEventListener("click", function () {
 			image.classList.add("hiding");
-			video.play().catch(error => {
-				console.log('Помилка відтворення відео:', error);
-			});
+			video.play();
 			setTimeout(() => {
 				image.classList.add("hide");
 			}, 500);
@@ -249,9 +248,7 @@ const videoToggle = () => {
 
 		video.addEventListener("click", function() {
 			if (video.paused) {
-				video.play().catch(error => {
-					console.log('Помилка відтворення відео:', error);
-				});
+				video.play();
 			} else {
 				video.pause();
 				image.classList.remove("hide");
