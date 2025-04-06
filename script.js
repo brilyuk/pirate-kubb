@@ -260,7 +260,32 @@ const videoToggle = () => {
 	}
 }
 
+const scrollAnimation = () => {
+	const elements = document.querySelectorAll('[data-fade-animation]');
+	
+	elements.forEach(element => {
+		const duration = element.dataset.animationDuration || 1;
+		const delay = element.dataset.animationDelay || 0;
+		const once = element.dataset.animationOnce === 'true';
+		
+		gsap.from(element, {
+			opacity: 0,
+			y: 100,
+			duration: duration,
+			delay: delay,
+			scrollTrigger: {
+				trigger: element,
+				start: 'top 80%',
+				end: 'bottom 20%',
+				once: once,
+				markers: false
+			}
+		});
+	});
+}
+
 window.onload = () => {
+	headroom.init();
 	toggleFaqItems();
 	scrollToSection();
 	toggleSelect();
@@ -268,7 +293,7 @@ window.onload = () => {
 	modalToggle();
 	videoToggle();
 	updatePageAfterSuccessForm();
-	headroom.init();
+	scrollAnimation();
 
 	setTimeout(() => {
 		wavesAnimation();
