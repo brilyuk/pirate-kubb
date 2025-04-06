@@ -1,4 +1,7 @@
 gsap.registerPlugin(ScrollTrigger);
+const header = document.querySelector(".header");
+const headroom = new Headroom(header);
+
 
 const toggleFaqItems = () => {
 	const faq = document.querySelector(".faq");
@@ -57,9 +60,9 @@ const toggleSelect = () => {
 	const selectTitle = select.querySelector('.form-select__title');
 	const selectInput = select.querySelector('.form-select__input');
 	const selectOptions = selectList.querySelectorAll('.form-select__option');
-  select.addEventListener('click', (e) => {
-    e.currentTarget.classList.toggle('open');
-  });
+	select.addEventListener('click', (e) => {
+		e.currentTarget.classList.toggle('open');
+	});
 	document.addEventListener('click', (e) => {
 		if (!e.target.closest('.form-select')) {
 			select.classList.remove('open');
@@ -144,30 +147,30 @@ const elementsAnimation = () => {
 }
 
 const morphAnimation = () => {
-  const shapes = document.querySelectorAll('.shape-morph');
-  if (!shapes) return;
+	const shapes = document.querySelectorAll('.shape-morph');
+	if (!shapes) return;
 
-  shapes.forEach((shape, index) => {
-    const startPath = shape.getAttribute('d');
-    const endPath = shape.dataset.morphTo;
-    const startDelay = index * 1000;
-    
-    anime({
-      targets: shape,
-      d: [
-        { value: startPath },
-        { value: endPath },
-        { value: startPath }
-      ],
-      duration: 10000,
-      loop: true,
-      delay: startDelay,
-      endDelay: 0,
-      direction: 'normal',
-      easing: 'easeInOutSine',
-      autoplay: true
-    });
-  });
+	shapes.forEach((shape, index) => {
+		const startPath = shape.getAttribute('d');
+		const endPath = shape.dataset.morphTo;
+		const startDelay = index * 1000;
+		
+		anime({
+			targets: shape,
+			d: [
+				{ value: startPath },
+				{ value: endPath },
+				{ value: startPath }
+			],
+			duration: 10000,
+			loop: true,
+			delay: startDelay,
+			endDelay: 0,
+			direction: 'normal',
+			easing: 'easeInOutSine',
+			autoplay: true
+		});
+	});
 }
 
 const modalToggle = () => {
@@ -178,7 +181,6 @@ const modalToggle = () => {
 		modal.classList.add('open');
 		document.body.classList.add('modal-opened');
 		
-		// Зупиняємо всі анімації
 		gsap.globalTimeline.pause();
 	}
 
@@ -186,7 +188,6 @@ const modalToggle = () => {
 		modal.classList.remove('open');
 		document.body.classList.remove('modal-opened');
 		
-		// Відновлюємо анімації
 		gsap.globalTimeline.resume();
 	}
 
@@ -225,32 +226,40 @@ const videoToggle = () => {
 	if (!videoBox) return;
 	
 	const image = videoBox.querySelector(".video-box__image");
-	const video = videoBox.querySelector(".video-box__video");
-	const iframe = video.querySelector("iframe");
-	const src = iframe.getAttribute("src");
+	const video = videoBox.querySelector("video");
 
-  if (image && video) {
-    image.addEventListener("click", function () {
-      image.classList.add("hiding");
-			if (src) {
-        const newSrc = src.replace('autoplay=0', 'autoplay=1');
-        iframe.setAttribute("src", newSrc);
-      }
+	if (image && video) {
+		image.addEventListener("click", function () {
+			image.classList.add("hiding");
+			video.play();
 			setTimeout(() => {
 				image.classList.add("hide");
 			}, 500);
-    });
-  }
+		});
+
+		video.addEventListener("click", function() {
+			if (video.paused) {
+				video.play();
+			} else {
+				video.pause();
+				image.classList.remove("hide");
+				setTimeout(() => {
+					image.classList.remove("hiding");
+				}, 100);
+			}
+		});
+	}
 }
 
 window.onload = () => {
 	toggleFaqItems();
 	scrollToSection();
-  toggleSelect();
+	toggleSelect();
 	removeEmptyFields();
 	modalToggle();
 	videoToggle();
 	updatePageAfterSuccessForm();
+	headroom.init();
 
 	setTimeout(() => {
 		wavesAnimation();
