@@ -24,8 +24,8 @@ const initSlider = () => {
 				slidesPerView: 3,
 				loop: false,
 				navigation: {
-					nextEl: '.swiper__button.prev',
-					prevEl: '.swiper__button.next',
+					nextEl: '.swiper__button.next',
+					prevEl: '.swiper__button.prev',
 				},
 			});
 		}
