@@ -16,6 +16,22 @@ const toggleFaqItems = () => {
 	});
 }
 
+const initSlider = () => {
+	if (isMobile) {
+		const slider = document.querySelector('.swiper');
+		if (slider) {
+			const swiper = new Swiper(slider, {
+				slidesPerView: 3,
+				loop: false,
+				navigation: {
+					nextEl: '.swiper__button.prev',
+					prevEl: '.swiper__button.next',
+				},
+			});
+		}
+	}
+}
+
 const scrollToSection = () => {
 	const links = document.querySelectorAll('a[href*="#"]');
 	if (!links.length) return;
@@ -294,10 +310,11 @@ window.onload = () => {
 	videoToggle();
 	updatePageAfterSuccessForm();
 	scrollAnimation();
-
+	
 	setTimeout(() => {
 		wavesAnimation();
 		elementsAnimation();
 		morphAnimation();
+		initSlider();
 	}, 3000);
 }
