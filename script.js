@@ -310,6 +310,58 @@ const videoToggle = () => {
 	}
 }
 
+const uploadFiles = () => {
+	const ctx = document.querySelector('#uploaderctx');
+	if (!ctx) return;
+	
+	const formatFileSize = (bytes) => {
+		if (bytes === 0) return '0 Bytes';
+		const k = 1024;
+		const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+		const i = Math.floor(Math.log(bytes) / Math.log(k));
+		return `(${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]})`;
+	};
+	
+	ctx.addEventListener('file-added', (e) => {
+		const fileData = e.detail;
+		const filesContainer = document.querySelector('.add-files');
+		const templateFile = document.querySelector('.add-file');
+		
+		if (filesContainer && templateFile) {
+			const newFile = templateFile.cloneNode(true);
+			const nameElement = newFile.querySelector('.add-file__content-wrap-name');
+			const sizeElement = newFile.querySelector('.add-file__content-wrap-size');
+			
+			newFile.setAttribute('data-uuid', fileData.internalId);
+			
+			if (nameElement) nameElement.textContent = fileData.name;
+			if (sizeElement) sizeElement.textContent = formatFileSize(fileData.size);
+			
+			newFile.classList.add('show');
+			filesContainer.appendChild(newFile);
+			
+			const removeButton = newFile.querySelector('.add-file__content-wrap-remove');
+			if (removeButton) {
+				removeButton.addEventListener('click', () => {
+					const uploadButton = document.querySelector('button[type="button"]');
+					if (uploadButton) {
+						uploadButton.click();
+					}
+				});
+			}
+		}
+	});
+	
+	ctx.addEventListener('file-removed', (e) => {
+		const removedFileId = e.detail.internalId;
+		const fileToRemove = document.querySelector(`.add-file[data-uuid="${removedFileId}"]`);
+		
+		if (fileToRemove) {
+			fileToRemove.remove();
+		}
+	});
+}
+
 const getRandomDelay = () => {
 	const delays = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5];
 	return delays[Math.floor(Math.random() * delays.length)];
@@ -367,6 +419,7 @@ window.onload = () => {
 	modalToggle();
 	videoToggle();
 	updatePageAfterSuccessForm();
+	uploadFiles();
 	scrollAnimation();
 	
 	setTimeout(() => {
