@@ -352,8 +352,8 @@ const uploadFiles = () => {
 			const removeButton = newFile.querySelector('.add-file__content-wrap-remove');
 			
 			if (removeButton) {
-				removeButton.addEventListener('click', () => {					
-					const uploadButton = ctx.querySelector('button[type="button"]');
+				removeButton.addEventListener('click', () => {	
+					const uploadButton = document.querySelector('uc-file-uploader-regular button[type="button"]');
 					if (uploadButton) {
 						uploadButton.click();
 					}
