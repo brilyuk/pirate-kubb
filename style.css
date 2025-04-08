@@ -160,6 +160,6 @@
 	width: 30px;
 }
 
-[data-opacity-animation] {
+.modal [data-opacity-animation] {
 	opacity: 0;
 }
