@@ -288,6 +288,7 @@ const videoToggle = () => {
 	const image = videoBox.querySelector(".video-box__image");
 	const video = videoBox.querySelector("video");
 	const source = document.createElement('source');
+	const isVideoPlaying = video => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
 
 	source.src = isMobile
 		? video.getAttribute('data-src-mobile')
@@ -298,22 +299,12 @@ const videoToggle = () => {
 
 	if (image && video) {
 		image.addEventListener("click", function () {
-			image.classList.add("hiding");
-			video.play();
-			setTimeout(() => {
-				image.classList.add("hide");
-			}, 500);
-		});
-
-		video.addEventListener("click", function() {
-			if (video.paused) {
-				video.play();
-			} else {
+			if (isVideoPlaying(video)) {
 				video.pause();
 				image.classList.remove("hide");
-				setTimeout(() => {
-					image.classList.remove("hiding");
-				}, 100);
+			} else {
+				video.play();
+				image.classList.add("hide");
 			}
 		});
 	}
@@ -325,9 +316,12 @@ const getRandomDelay = () => {
 }
 
 const scrollAnimation = () => {
+	const header = document.querySelector('.header');
 	const blocks = document.querySelectorAll('[data-fade-animation]');
 	const elements = document.querySelectorAll('[data-element], [data-opacity-animation]');
 	
+	gsap.from(header, { opacity: 0, duration: 1, delay: 1, ease: "power2.out" });
+
 	blocks.forEach(block => {
 		const duration = block.dataset.animationDuration || 0.5;
 		const delay = block.dataset.animationDelay || 0;
