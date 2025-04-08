@@ -372,7 +372,12 @@ const scrollAnimation = () => {
 	const blocks = document.querySelectorAll('[data-fade-animation]');
 	const elements = document.querySelectorAll('[data-element], [data-opacity-animation]');
 	
-	gsap.from(header, { opacity: 0, duration: 1, delay: 1, ease: "power2.out" });
+	gsap.from(header, {
+		duration: 1,
+		onStart: () => {
+			header.classList.add('headroom--unpinned');
+		}
+	});
 
 	blocks.forEach(block => {
 		const duration = block.dataset.animationDuration || 0.5;
