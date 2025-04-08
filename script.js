@@ -3,7 +3,6 @@ const header = document.querySelector(".header");
 const headroom = new Headroom(header);
 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-
 const toggleFaqItems = () => {
 	const faq = document.querySelector(".faq");
 	if (!faq) return;
@@ -15,6 +14,39 @@ const toggleFaqItems = () => {
 		});
 	});
 }
+
+const showMoreFaqItems = () => {
+	const faq = document.querySelector(".faq");
+	if (!faq) return;
+
+	const faqItems = faq.querySelectorAll(".faq__item");
+	const showMoreButton = faq.querySelector(".faq__button");
+	const itemsToShow = isMobile ? 5 : 10;
+	
+	faqItems.forEach((item, index) => {
+		if (index >= itemsToShow) {
+			item.style.display = "none";
+		}
+	});
+
+	if (faqItems.length <= itemsToShow) {
+		showMoreButton.style.display = "none";
+	}
+	
+	if (showMoreButton) {
+		showMoreButton.addEventListener("click", (e) => {
+			e.preventDefault();
+			
+			faqItems.forEach((item, index) => {
+				if (index >= itemsToShow) {
+					item.style.display = item.style.display === "none" ? "block" : "none";
+				}
+			});
+			showMoreButton.style.display = "none";
+		});
+	}
+}
+
 
 const initSlider = () => {
 	if (isMobile) {
@@ -190,6 +222,18 @@ const morphAnimation = () => {
 	});
 }
 
+const animatePopupElements = (modal) => {
+	const elements = modal.querySelectorAll('[data-opacity-animation]');
+	if (!elements) return;
+	
+	elements.forEach((element, index) => {
+		const duration = 1;
+		const delay = index;
+		
+		gsap.to(element, { opacity: 1,  duration, delay, ease: "power2.out" });
+	});
+}
+
 const modalToggle = () => {
 	const modals = document.querySelectorAll('.modal');
 	const modalButtons = document.querySelectorAll('[data-modal-target]');
@@ -197,8 +241,7 @@ const modalToggle = () => {
 	const openModal = (modal) => {
 		modal.classList.add('open');
 		document.body.classList.add('modal-opened');
-		
-		gsap.globalTimeline.pause();
+		animatePopupElements(modal);
 	}
 
 	const closeModal = (modal) => {
@@ -276,19 +319,38 @@ const videoToggle = () => {
 	}
 }
 
+const getRandomDelay = () => {
+	const delays = [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5];
+	return delays[Math.floor(Math.random() * delays.length)];
+}
+
 const scrollAnimation = () => {
-	const elements = document.querySelectorAll('[data-fade-animation]');
+	const blocks = document.querySelectorAll('[data-fade-animation]');
+	const elements = document.querySelectorAll('[data-element], [data-opacity-animation]');
 	
+	blocks.forEach(block => {
+		const duration = block.dataset.animationDuration || 0.5;
+		const delay = block.dataset.animationDelay || 0;
+		const once = block.dataset.animationOnce === 'true';
+		
+		const TL = gsap.timeline({
+			scrollTrigger: {
+				trigger: block,
+				start: 'top 80%',
+				end: 'bottom 20%',
+				once: once,
+				markers: false
+			}
+		});
+		TL.from(block, { opacity: 0, y: 100,  duration, delay, ease: "power2.out" });
+	});
+
 	elements.forEach(element => {
 		const duration = element.dataset.animationDuration || 1;
-		const delay = element.dataset.animationDelay || 0;
+		const delay = element.dataset.animationDelay || getRandomDelay();
 		const once = element.dataset.animationOnce === 'true';
-		
-		gsap.from(element, {
-			opacity: 0,
-			y: 100,
-			duration: duration,
-			delay: delay,
+
+		const TL = gsap.timeline({
 			scrollTrigger: {
 				trigger: element,
 				start: 'top 80%',
@@ -297,12 +359,14 @@ const scrollAnimation = () => {
 				markers: false
 			}
 		});
+		TL.from(element, { opacity: 0,  duration, delay, ease: "power2.out" });
 	});
 }
 
 window.onload = () => {
 	headroom.init();
 	toggleFaqItems();
+	showMoreFaqItems();
 	scrollToSection();
 	toggleSelect();
 	removeEmptyFields();
