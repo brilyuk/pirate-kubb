@@ -143,10 +143,12 @@ const removeEmptyFields = () => {
 	submitButton.addEventListener('click', event => {
 		event.preventDefault();
 		const form = document.querySelector('form');
-		const formButton = form.querySelector('[type="submit"]');
-		const buttons = form.querySelectorAll('button:not(.form__submit)');
+		const formButton = form.querySelector('.form__footer [type="submit"]');
+		const buttons = form.querySelectorAll('button');
 		buttons.forEach(button => button.parentNode.removeChild(button));
-		formButton.click();
+		setTimeout(() => {
+			formButton.click();
+		}, 100);
 	});
 }
 
@@ -322,10 +324,11 @@ const uploadFiles = () => {
 		return `(${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]})`;
 	};
 	
-	ctx.addEventListener('file-added', (e) => {
+	ctx.addEventListener('file-url-changed', (e) => {
 		const fileData = e.detail;
 		const filesContainer = document.querySelector('.add-files');
 		const templateFile = document.querySelector('.add-file');
+		const fileUrlInput = document.querySelector('#file_url');
 		
 		if (filesContainer && templateFile) {
 			const newFile = templateFile.cloneNode(true);
@@ -340,10 +343,19 @@ const uploadFiles = () => {
 			newFile.classList.add('show');
 			filesContainer.appendChild(newFile);
 			
+			if (fileUrlInput && fileData.cdnUrl) {
+				const currentUrls = JSON.parse(fileUrlInput.value || '[]');
+				currentUrls.push(fileData.cdnUrl);
+				fileUrlInput.value = JSON.stringify(currentUrls);
+			}
+			
+			console.log('Додано URL:', fileData.cdnUrl);
+
 			const removeButton = newFile.querySelector('.add-file__content-wrap-remove');
+			
 			if (removeButton) {
-				removeButton.addEventListener('click', () => {
-					const uploadButton = document.querySelector('button[type="button"]');
+				removeButton.addEventListener('click', () => {					
+					const uploadButton = ctx.querySelector('button[type="button"]');
 					if (uploadButton) {
 						uploadButton.click();
 					}
@@ -355,10 +367,18 @@ const uploadFiles = () => {
 	ctx.addEventListener('file-removed', (e) => {
 		const removedFileId = e.detail.internalId;
 		const fileToRemove = document.querySelector(`.add-file[data-uuid="${removedFileId}"]`);
+		const fileUrlInput = document.querySelector('#file_url');
 		
 		if (fileToRemove) {
 			fileToRemove.remove();
 		}
+		
+		if (fileUrlInput) {
+			const currentUrls = JSON.parse(fileUrlInput.value || '[]');
+			const updatedUrls = currentUrls.filter(url => url !== e.detail.cdnUrl);
+			fileUrlInput.value = JSON.stringify(updatedUrls);
+		}
+		console.log('Видалено URL:', fileUrlInput.value);
 	});
 }
 
