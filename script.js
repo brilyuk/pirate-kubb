@@ -348,8 +348,6 @@ const uploadFiles = () => {
 				currentUrls.push(fileData.cdnUrl);
 				fileUrlInput.value = JSON.stringify(currentUrls);
 			}
-			
-			console.log('Додано URL:', fileData.cdnUrl);
 
 			const removeButton = newFile.querySelector('.add-file__content-wrap-remove');
 			
@@ -378,7 +376,6 @@ const uploadFiles = () => {
 			const updatedUrls = currentUrls.filter(url => url !== e.detail.cdnUrl);
 			fileUrlInput.value = JSON.stringify(updatedUrls);
 		}
-		console.log('Видалено URL:', fileUrlInput.value);
 	});
 }
 
