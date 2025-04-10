@@ -131,8 +131,7 @@
 }
 
 .swiper-slide {
-  flex-shrink: 0;
-  width: auto !important;
+  width: fit-content !important;
 }
 
 .w--open .line-1 {

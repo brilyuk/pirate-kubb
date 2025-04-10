@@ -1,7 +1,8 @@
 gsap.registerPlugin(ScrollTrigger);
 const header = document.querySelector(".header");
 const headroom = new Headroom(header);
-const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+const isMobile = window.innerWidth < 768;
+// const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 const toggleFaqItems = () => {
 	const faq = document.querySelector(".faq");
@@ -53,7 +54,8 @@ const initSlider = () => {
 		const slider = document.querySelector('.swiper');
 		if (slider) {
 			const swiper = new Swiper(slider, {
-				slidesPerView: 3,
+				slidesPerView: 3.5,
+				slideToScroll: 1,
 				loop: false,
 				navigation: {
 					nextEl: '.swiper__button.next',
@@ -431,6 +433,29 @@ const scrollAnimation = () => {
 	});
 }
 
+const customizeFooter = () => {
+	const footer = document.querySelector('.footer');
+	if (!footer) return;
+	
+	const footerInner = footer.querySelector('.footer__inner');
+	const footerLogo = footer.querySelector('.footer__logo');
+	const footerSocials = footer.querySelector('.footer__socials');
+	const footerAside = footer.querySelector('.footer__aside');
+	const footerAsideWrap = footer.querySelector('.footer__aside-wrap');
+	const footerAsideBottom = footer.querySelector('.footer__aside-bottom');
+
+	if (isMobile) {
+		footerAside.appendChild(footerAsideWrap);
+		footerAside.appendChild(footerSocials);
+		footerAside.appendChild(footerLogo);
+		footerAside.appendChild(footerAsideBottom);
+	} else {
+		footerInner.appendChild(footerLogo);
+		footerInner.appendChild(footerSocials);
+		footerInner.appendChild(footerAside);
+	}
+}
+
 window.onload = () => {
 	headroom.init();
 	toggleFaqItems();
@@ -443,6 +468,127 @@ window.onload = () => {
 	updatePageAfterSuccessForm();
 	uploadFiles();
 	scrollAnimation();
+	customizeFooter();
+	
+	setTimeout(() => {
+		wavesAnimation();
+		elementsAnimation();
+		morphAnimation();
+		initSlider();
+	}, 3000);
+	
+	// if (footerContent && footerLogo && footerSocial && footerCopyright) {
+	// 	footerContent.innerHTML = '';
+		
+	// 	footerContent.appendChild(footerLogo);
+	// 	footerContent.appendChild(footerSocial);
+	// 	footerContent.appendChild(footerCopyright);
+	// }
+}
+
+window.onload = () => {
+	headroom.init();
+	toggleFaqItems();
+	showMoreFaqItems();
+	scrollToSection();
+	toggleSelect();
+	removeEmptyFields();
+	modalToggle();
+	videoToggle();
+	updatePageAfterSuccessForm();
+	uploadFiles();
+	scrollAnimation();
+	customizeFooter();
+	
+	setTimeout(() => {
+		wavesAnimation();
+		elementsAnimation();
+		morphAnimation();
+		initSlider();
+	}, 3000);
+	
+	// if (footerContent && footerLogo && footerSocial && footerCopyright) {
+	// 	footerContent.innerHTML = '';
+		
+	// 	footerContent.appendChild(footerLogo);
+	// 	footerContent.appendChild(footerSocial);
+	// 	footerContent.appendChild(footerCopyright);
+	// }
+}
+
+window.onload = () => {
+	headroom.init();
+	toggleFaqItems();
+	showMoreFaqItems();
+	scrollToSection();
+	toggleSelect();
+	removeEmptyFields();
+	modalToggle();
+	videoToggle();
+	updatePageAfterSuccessForm();
+	uploadFiles();
+	scrollAnimation();
+	customizeFooter();
+	
+	setTimeout(() => {
+		wavesAnimation();
+		elementsAnimation();
+		morphAnimation();
+		initSlider();
+	}, 3000);
+	
+	// if (footerContent && footerLogo && footerSocial && footerCopyright) {
+	// 	footerContent.innerHTML = '';
+		
+	// 	footerContent.appendChild(footerLogo);
+	// 	footerContent.appendChild(footerSocial);
+	// 	footerContent.appendChild(footerCopyright);
+	// }
+}
+
+window.onload = () => {
+	headroom.init();
+	toggleFaqItems();
+	showMoreFaqItems();
+	scrollToSection();
+	toggleSelect();
+	removeEmptyFields();
+	modalToggle();
+	videoToggle();
+	updatePageAfterSuccessForm();
+	uploadFiles();
+	scrollAnimation();
+	customizeFooter();
+	
+	setTimeout(() => {
+		wavesAnimation();
+		elementsAnimation();
+		morphAnimation();
+		initSlider();
+	}, 3000);
+	
+	// if (footerContent && footerLogo && footerSocial && footerCopyright) {
+	// 	footerContent.innerHTML = '';
+		
+	// 	footerContent.appendChild(footerLogo);
+	// 	footerContent.appendChild(footerSocial);
+	// 	footerContent.appendChild(footerCopyright);
+	// }
+}
+
+window.onload = () => {
+	headroom.init();
+	toggleFaqItems();
+	showMoreFaqItems();
+	scrollToSection();
+	toggleSelect();
+	removeEmptyFields();
+	modalToggle();
+	videoToggle();
+	updatePageAfterSuccessForm();
+	uploadFiles();
+	scrollAnimation();
+	customizeFooter();
 	
 	setTimeout(() => {
 		wavesAnimation();
