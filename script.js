@@ -146,7 +146,8 @@ const removeEmptyFields = () => {
 		event.preventDefault();
 		const form = document.querySelector('form');
 		const formButton = form.querySelector('.form__footer [type="submit"]');
-		const buttons = form.querySelectorAll('button');
+		const buttons = form.querySelectorAll('button:not(.form__submit):not(uc-drop-area button)');
+		
 		buttons.forEach(button => button.parentNode.removeChild(button));
 		setTimeout(() => {
 			formButton.click();
