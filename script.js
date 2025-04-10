@@ -76,7 +76,7 @@ const scrollToSection = () => {
 			const href = link.getAttribute('href');
 			const sectionId = href.replace('#', '');
 			const section = document.getElementById(sectionId);
-			const isHomePage = window.location.pathname === '/old-home';
+			const isHomePage = window.location.pathname === '/';
 			
 			
 			if (isHomePage) {
@@ -85,7 +85,7 @@ const scrollToSection = () => {
 				}
 			} else {			
 				sessionStorage.setItem('scrollToSection', sectionId);
-				window.location.href = '/old-home';
+				window.location.href = '/';
 			}
 		});
 	});
