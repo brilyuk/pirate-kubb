@@ -1,8 +1,8 @@
 gsap.registerPlugin(ScrollTrigger);
 const header = document.querySelector(".header");
 const headroom = new Headroom(header);
-const isMobile = window.innerWidth < 768;
-// const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+// const isMobile = window.innerWidth < 768;
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 const toggleFaqItems = () => {
 	const faq = document.querySelector(".faq");
@@ -457,34 +457,31 @@ const customizeFooter = () => {
 	}
 }
 
-window.onload = () => {
-	headroom.init();
-	toggleFaqItems();
-	showMoreFaqItems();
-	scrollToSection();
-	toggleSelect();
-	removeEmptyFields();
-	modalToggle();
-	videoToggle();
-	updatePageAfterSuccessForm();
-	uploadFiles();
-	scrollAnimation();
-	customizeFooter();
+const checkCookieConsent = () => {
+	return document.cookie.includes('cookieConsent=true');
+}
+
+const setCookieConsent = () => {
+	const date = new Date();
+	date.setFullYear(date.getFullYear() + 1);// The cookie will be valid for 1 year
+	document.cookie = `cookieConsent=true; expires=${date.toUTCString()}; path=/`;
+}
+
+const initCookieBanner = () => {
+	const acceptButton = document.querySelector('.cookie-banner-button-2---brix');
+	const banner = document.querySelector('.cookie');
 	
-	setTimeout(() => {
-		wavesAnimation();
-		elementsAnimation();
-		morphAnimation();
-		initSlider();
-	}, 3000);
-	
-	// if (footerContent && footerLogo && footerSocial && footerCopyright) {
-	// 	footerContent.innerHTML = '';
-		
-	// 	footerContent.appendChild(footerLogo);
-	// 	footerContent.appendChild(footerSocial);
-	// 	footerContent.appendChild(footerCopyright);
-	// }
+
+	if (!checkCookieConsent()) {
+		banner.style.display = 'block';
+	}
+
+	if (acceptButton) {
+		acceptButton.addEventListener('click', function(e) {
+			e.preventDefault();
+			setCookieConsent();
+		});
+	}
 }
 
 window.onload = () => {
@@ -500,96 +497,7 @@ window.onload = () => {
 	uploadFiles();
 	scrollAnimation();
 	customizeFooter();
-	
-	setTimeout(() => {
-		wavesAnimation();
-		elementsAnimation();
-		morphAnimation();
-		initSlider();
-	}, 3000);
-	
-	// if (footerContent && footerLogo && footerSocial && footerCopyright) {
-	// 	footerContent.innerHTML = '';
-		
-	// 	footerContent.appendChild(footerLogo);
-	// 	footerContent.appendChild(footerSocial);
-	// 	footerContent.appendChild(footerCopyright);
-	// }
-}
-
-window.onload = () => {
-	headroom.init();
-	toggleFaqItems();
-	showMoreFaqItems();
-	scrollToSection();
-	toggleSelect();
-	removeEmptyFields();
-	modalToggle();
-	videoToggle();
-	updatePageAfterSuccessForm();
-	uploadFiles();
-	scrollAnimation();
-	customizeFooter();
-	
-	setTimeout(() => {
-		wavesAnimation();
-		elementsAnimation();
-		morphAnimation();
-		initSlider();
-	}, 3000);
-	
-	// if (footerContent && footerLogo && footerSocial && footerCopyright) {
-	// 	footerContent.innerHTML = '';
-		
-	// 	footerContent.appendChild(footerLogo);
-	// 	footerContent.appendChild(footerSocial);
-	// 	footerContent.appendChild(footerCopyright);
-	// }
-}
-
-window.onload = () => {
-	headroom.init();
-	toggleFaqItems();
-	showMoreFaqItems();
-	scrollToSection();
-	toggleSelect();
-	removeEmptyFields();
-	modalToggle();
-	videoToggle();
-	updatePageAfterSuccessForm();
-	uploadFiles();
-	scrollAnimation();
-	customizeFooter();
-	
-	setTimeout(() => {
-		wavesAnimation();
-		elementsAnimation();
-		morphAnimation();
-		initSlider();
-	}, 3000);
-	
-	// if (footerContent && footerLogo && footerSocial && footerCopyright) {
-	// 	footerContent.innerHTML = '';
-		
-	// 	footerContent.appendChild(footerLogo);
-	// 	footerContent.appendChild(footerSocial);
-	// 	footerContent.appendChild(footerCopyright);
-	// }
-}
-
-window.onload = () => {
-	headroom.init();
-	toggleFaqItems();
-	showMoreFaqItems();
-	scrollToSection();
-	toggleSelect();
-	removeEmptyFields();
-	modalToggle();
-	videoToggle();
-	updatePageAfterSuccessForm();
-	uploadFiles();
-	scrollAnimation();
-	customizeFooter();
+	initCookieBanner();
 	
 	setTimeout(() => {
 		wavesAnimation();
