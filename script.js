@@ -2,7 +2,18 @@ gsap.registerPlugin(ScrollTrigger);
 const header = document.querySelector(".header");
 const headroom = new Headroom(header);
 // const isMobile = window.innerWidth < 768;
-const isMobile = /iPhone|iPad|iPod|Android|Macintosh/i.test(navigator.userAgent) && /Mobile|Tablet/i.test(navigator.userAgent);
+const isMobile = () => {
+	const userAgent = navigator.userAgent.toLowerCase();
+	const isIPad = /ipad/.test(userAgent) || (navigator.maxTouchPoints > 0 && /macintosh/.test(userAgent));
+	const isIPhone = /iphone/.test(userAgent);
+	const isAndroid = /android/.test(userAgent);
+	const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+	const isSmallScreen = window.innerWidth < 1024;
+
+	return (isIPad || isIPhone || isAndroid || (isTouchDevice && isSmallScreen));
+};
+
+const isMobileDevice = isMobile();
 
 const toggleFaqItems = () => {
 	const faq = document.querySelector(".faq");
@@ -22,7 +33,7 @@ const showMoreFaqItems = () => {
 
 	const faqItems = faq.querySelectorAll(".faq__item");
 	const showMoreButton = faq.querySelector(".faq__button");
-	const itemsToShow = isMobile ? 5 : 10;
+	const itemsToShow = isMobileDevice ? 5 : 10;
 	
 	faqItems.forEach((item, index) => {
 		if (index >= itemsToShow) {
@@ -50,7 +61,7 @@ const showMoreFaqItems = () => {
 
 
 const initSlider = () => {
-	if (isMobile) {
+	if (isMobileDevice) {
 		const slider = document.querySelector('.swiper');
 		if (slider) {
 			const swiper = new Swiper(slider, {
@@ -295,7 +306,7 @@ const videoToggle = () => {
 	const source = document.createElement('source');
 	const isVideoPlaying = video => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
 
-	source.src = isMobile
+	source.src = isMobileDevice
 		? video.getAttribute('data-src-mobile')
 		: video.getAttribute('data-src-desktop');
 
@@ -445,7 +456,7 @@ const customizeFooter = () => {
 	const footerAsideWrap = footer.querySelector('.footer__aside-wrap');
 	const footerAsideBottom = footer.querySelector('.footer__aside-bottom');
 
-	if (isMobile) {
+	if (isMobileDevice) {
 		footerAside.appendChild(footerAsideWrap);
 		footerAside.appendChild(footerSocials);
 		footerAside.appendChild(footerLogo);
