@@ -2,7 +2,7 @@ gsap.registerPlugin(ScrollTrigger);
 const header = document.querySelector(".header");
 const headroom = new Headroom(header);
 // const isMobile = window.innerWidth < 768;
-const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+const isMobile = /iPhone|iPad|iPod|Android|Macintosh/i.test(navigator.userAgent) && /Mobile|Tablet/i.test(navigator.userAgent);
 
 const toggleFaqItems = () => {
 	const faq = document.querySelector(".faq");
