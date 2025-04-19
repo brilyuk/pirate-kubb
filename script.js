@@ -84,15 +84,13 @@ const scrollToSection = () => {
 	links.forEach(link => {
 		link.addEventListener('click', (e) => {
 			e.preventDefault();
-			const href = link.getAttribute('href');
-			const sectionId = href.replace('#', '');
+			const sectionId = link.getAttribute('data-to-scroll');
 			const section = document.getElementById(sectionId);
 			const isHomePage = window.location.pathname === '/';
 			
-			
 			if (isHomePage) {
 				if (section) {
-					section.scrollIntoView({ behavior: 'smooth' });
+					section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 				}
 			} else {			
 				sessionStorage.setItem('scrollToSection', sectionId);
@@ -106,7 +104,7 @@ const scrollToSection = () => {
 		const section = document.getElementById(savedSectionId);
 		if (section) {
 			setTimeout(() => {
-				section.scrollIntoView({ behavior: 'smooth' });
+				section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 				sessionStorage.removeItem('scrollToSection');
 			}, 100);
 		}
