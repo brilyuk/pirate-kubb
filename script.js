@@ -90,25 +90,7 @@ const scrollToSection = () => {
 			
 			if (isHomePage) {
 				if (section) {
-					const images = section.querySelectorAll('img[loading="lazy"]');
-
-					if (images.length === 0) {
-						section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-						return;
-					}
-
-					const lastImage = images[images.length - 1];
-
-					const observer = new IntersectionObserver((entries) => {
-						entries.forEach(entry => {
-							if (entry.isIntersecting && entry.target.complete) {
-								observer.disconnect();
-								section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-							}
-						});
-					});
-
-					observer.observe(lastImage);
+					section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 				}
 			} else {			
 				sessionStorage.setItem('scrollToSection', sectionId);
@@ -122,27 +104,8 @@ const scrollToSection = () => {
 		const section = document.getElementById(savedSectionId);
 		if (section) {
 			setTimeout(() => {
-				const images = section.querySelectorAll('img[loading="lazy"]');
-
-				if (images.length === 0) {
-					section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-					sessionStorage.removeItem('scrollToSection');
-					return;
-				}
-
-				const lastImage = images[images.length - 1];
-
-				const observer = new IntersectionObserver((entries) => {
-					entries.forEach(entry => {
-						if (entry.isIntersecting && entry.target.complete) {
-							observer.disconnect();
-							section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-							sessionStorage.removeItem('scrollToSection');
-						}
-					});
-				});
-
-				observer.observe(lastImage);
+				section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+				sessionStorage.removeItem('scrollToSection');
 			}, 100);
 		}
 	}
