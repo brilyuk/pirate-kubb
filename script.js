@@ -106,7 +106,7 @@ const scrollToSection = () => {
 			setTimeout(() => {
 				section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 				sessionStorage.removeItem('scrollToSection');
-			}, 100);
+			}, 500);
 		}
 	}
 }
