@@ -448,7 +448,7 @@ const customizeFooter = () => {
 	if (!footer) return;
 	
 	const footerInner = footer.querySelector('.footer__inner');
-	const footerLogo = footer.querySelector('.footer__logo');
+	const footerLogos = footer.querySelector('.footer__logos');
 	const footerSocials = footer.querySelector('.footer__socials');
 	const footerAside = footer.querySelector('.footer__aside');
 	const footerAsideWrap = footer.querySelector('.footer__aside-wrap');
@@ -457,10 +457,10 @@ const customizeFooter = () => {
 	if (isMobileDevice) {
 		footerAside.appendChild(footerAsideWrap);
 		footerAside.appendChild(footerSocials);
-		footerAside.appendChild(footerLogo);
+		footerAside.appendChild(footerLogos);
 		footerAside.appendChild(footerAsideBottom);
 	} else {
-		footerInner.appendChild(footerLogo);
+		footerInner.appendChild(footerLogos);
 		footerInner.appendChild(footerSocials);
 		footerInner.appendChild(footerAside);
 	}
