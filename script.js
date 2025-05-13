@@ -277,7 +277,8 @@ const modalToggle = () => {
 		const modalBg = modal.querySelector('.modal__backdrop');	
 		
 		modalButtons.forEach(button => {
-			button.addEventListener('click', () => {
+			button.addEventListener('click', (e) => {
+				e.preventDefault();
 				const modalTarget = button.dataset.modalTarget;
 				const modal = document.querySelector(`.modal#${modalTarget}`);
 				closeAllModals();
