@@ -494,6 +494,17 @@ const initCookieBanner = () => {
 	}
 }
 
+const dataAttributeLocalization = () => {
+	const currentLocale = document.documentElement.lang;
+	const localeElements = document.querySelectorAll(`[data-locale-${currentLocale}]`);
+
+	localeElements.forEach(element => {
+		if (element.hasAttribute(`data-locale-${currentLocale}`)) {
+			element.src = element.getAttribute(`data-locale-${currentLocale}`);
+		}
+	});
+}
+
 window.onload = () => {
 	headroom.init();
 	toggleFaqItems();
@@ -508,6 +519,7 @@ window.onload = () => {
 	scrollAnimation();
 	customizeFooter();
 	initCookieBanner();
+	dataAttributeLocalization();
 	
 	setTimeout(() => {
 		wavesAnimation();
