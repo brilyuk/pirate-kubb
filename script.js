@@ -499,9 +499,15 @@ const dataAttributeLocalization = () => {
 	const localeElements = document.querySelectorAll(`[data-locale-${currentLocale}]`);
 
 	localeElements.forEach(element => {
-		if (element.hasAttribute(`data-locale-${currentLocale}`)) {
+		if (!element.hasAttribute(`data-locale-${currentLocale}`)) return;
+
+		if (element.hasAttribute('src')) {
 			element.src = element.getAttribute(`data-locale-${currentLocale}`);
 		}
+
+		if (element.hasAttribute('href')) {
+			element.href = element.getAttribute(`data-locale-${currentLocale}`);
+		}	
 	});
 }
 
