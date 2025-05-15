@@ -307,7 +307,7 @@ const videoToggle = () => {
 
 	if (image && video) {
 		image.addEventListener("click", function () {
-			if (isVideoPlaying(video)) {
+			if (isVideoPlaying(video) && !isMobileDevice) {
 				video.pause();
 				image.classList.remove("hide");
 			} else {
