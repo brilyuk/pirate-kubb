@@ -303,14 +303,7 @@ const videoToggle = () => {
 	const image = videoBox.querySelector(".video-box__image");
 	const video = videoBox.querySelector("video");
 	const source = document.createElement('source');
-	const isVideoPlaying = video => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
-
-	source.src = isMobileDevice
-		? video.getAttribute('data-src-mobile')
-		: video.getAttribute('data-src-desktop');
-
-	source.type = 'video/mp4';
-	video.appendChild(source);	
+	const isVideoPlaying = video => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);	
 
 	if (image && video) {
 		image.addEventListener("click", function () {
@@ -323,6 +316,15 @@ const videoToggle = () => {
 			}
 		});
 	}
+
+	document.addEventListener('localeChanged', () => {	
+		source.src = isMobileDevice
+			? video.getAttribute('data-src-mobile')
+			: video.getAttribute('data-src-desktop');
+
+		source.type = 'video/mp4';
+		video.appendChild(source);
+	});
 }
 
 const uploadFiles = () => {
@@ -494,6 +496,19 @@ const initCookieBanner = () => {
 	}
 }
 
+const updateVideoSrcLocale = (element, currentLocale) => {
+	if (element.hasAttribute('data-src-desktop')) {
+		let desktopSrc = element.getAttribute('data-src-desktop');
+		desktopSrc = desktopSrc.replace(/_[a-z]{2}-[a-z]{2}\.mp4$/i, `_${currentLocale.toLowerCase()}.mp4`);
+		element.setAttribute('data-src-desktop', desktopSrc);
+	}
+	if (element.hasAttribute('data-src-mobile')) {
+		let mobileSrc = element.getAttribute('data-src-mobile');
+		mobileSrc = mobileSrc.replace(/_[a-z]{2}-[a-z]{2}\.mp4$/i, `_${currentLocale.toLowerCase()}.mp4`);
+		element.setAttribute('data-src-mobile', mobileSrc);
+	}
+};
+
 const dataAttributeLocalization = () => {
 	const currentLocale = document.documentElement.lang;
 	const localeElements = document.querySelectorAll(`[data-locale-${currentLocale}]`);
@@ -507,8 +522,14 @@ const dataAttributeLocalization = () => {
 
 		if (element.hasAttribute('href')) {
 			element.href = element.getAttribute(`data-locale-${currentLocale}`);
-		}	
+		}
+		
+		if (element.hasAttribute('data-src-mobile') && element.hasAttribute('data-src-desktop')) {
+			updateVideoSrcLocale(element, currentLocale);
+		}
 	});
+	const event = new CustomEvent('localeChanged');
+	document.dispatchEvent(event);
 }
 
 window.onload = () => {
