@@ -16,6 +16,37 @@ const isMobile = () => {
 
 const isMobileDevice = isMobile();
 
+const initGeolocationRedirect = async () => {
+	const supportedLocales = {
+		'US': '/',
+		'DK': '/da',
+	};
+
+	const STORAGE_KEY = 'userLocale';
+	const REDIRECT_KEY = 'redirectedByIP';
+	const currentPath = window.location.pathname;
+
+	if (sessionStorage.getItem(REDIRECT_KEY) || localStorage.getItem(STORAGE_KEY)) return;
+
+	try {
+		const res = await fetch('https://ipapi.co/json/');
+		const data = await res.json();
+		const countryCode = data.country;
+
+		if (supportedLocales[countryCode]) {
+			const targetPath = supportedLocales[countryCode];
+
+			if (currentPath !== targetPath && !currentPath.startsWith(targetPath)) {
+				sessionStorage.setItem(REDIRECT_KEY, 'true');
+				localStorage.setItem(STORAGE_KEY, countryCode);
+				window.location.href = targetPath;
+			}
+		}
+	} catch (e) {
+		console.warn('Geolocation error by IP:', e);
+	}
+};
+
 const toggleFaqItems = () => {
 	const faq = document.querySelector(".faq");
 	if (!faq) return;
@@ -551,6 +582,7 @@ const dataAttributeLocalization = () => {
 }
 
 window.onload = () => {
+	initGeolocationRedirect();
 	headroom.init();
 	toggleFaqItems();
 	showMoreFaqItems();
