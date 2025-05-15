@@ -1,6 +1,7 @@
 gsap.registerPlugin(ScrollTrigger);
 const header = document.querySelector(".header");
 const headroom = new Headroom(header);
+const defaultLocale = 'en-us';
 // const isMobile = window.innerWidth < 768;
 const isMobile = () => {
 	const userAgent = navigator.userAgent.toLowerCase();
@@ -77,39 +78,56 @@ const initSlider = () => {
 	}
 }
 
+const getLocalePath = (locale) => {
+	if (locale.toLowerCase() === defaultLocale) return '/';
+	return '/' + locale.slice(0, 2).toLowerCase();
+};
+
 const scrollToSection = () => {
-	const links = document.querySelectorAll('a[href*="#"]');
-	if (!links.length) return;
+const links = document.querySelectorAll('[data-to-scroll]');
+if (!links.length) return;
 
-	links.forEach(link => {
-		link.addEventListener('click', (e) => {
-			e.preventDefault();
-			const sectionId = link.getAttribute('data-to-scroll');
+links.forEach(link => {
+	link.addEventListener('click', (e) => {
+		e.preventDefault();
+		const sectionId = link.getAttribute('data-to-scroll');
+		const currentLocale = document.documentElement.lang;
+		const localePath = getLocalePath(currentLocale);
+		const isHomePage = window.location.pathname === localePath;
+
+		sessionStorage.setItem('scrollToSection', sectionId);
+		sessionStorage.setItem('scrollToSectionLocale', currentLocale);
+
+		if (isHomePage) {
 			const section = document.getElementById(sectionId);
-			const isHomePage = window.location.pathname === '/';
-			
-			if (isHomePage) {
-				if (section) {
-					section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-				}
-			} else {			
-				sessionStorage.setItem('scrollToSection', sectionId);
-				window.location.href = '/';
-			}
-		});
-	});
-
-	const savedSectionId = sessionStorage.getItem('scrollToSection');
-	if (savedSectionId) {
-		const section = document.getElementById(savedSectionId);
-		if (section) {
-			setTimeout(() => {
+			if (section) {
 				section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-				sessionStorage.removeItem('scrollToSection');
-			}, 500);
+			}
+		} else {
+			window.location.href = localePath;
 		}
+	});
+});
+
+const savedSectionId = sessionStorage.getItem('scrollToSection');
+const savedLocale = sessionStorage.getItem('scrollToSectionLocale');
+const currentLocale = document.documentElement.lang;
+const localePath = getLocalePath(currentLocale);
+
+if (savedSectionId && savedLocale === currentLocale && window.location.pathname === localePath) {
+	const section = document.getElementById(savedSectionId);
+	if (section) {
+		setTimeout(() => {
+			section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			sessionStorage.removeItem('scrollToSection');
+			sessionStorage.removeItem('scrollToSectionLocale');
+		}, 500);
 	}
+} else if (savedSectionId) {
+	sessionStorage.removeItem('scrollToSection');
+	sessionStorage.removeItem('scrollToSectionLocale');
 }
+};
 
 
 const toggleSelect = () => {
