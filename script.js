@@ -17,10 +17,17 @@ const isMobile = () => {
 const isMobileDevice = isMobile();
 
 const initGeolocationRedirect = async () => {
-	const supportedLocales = {
-		'US': '/',
-		'DK': '/da',
-	};
+	const supportedLocales = {};
+	const langListItems = document.querySelectorAll('.lang__list-item');
+	if (!langListItems.length) return;
+
+	langListItems.forEach(item => {
+		const country = item.getAttribute('data-lang');
+		const path = item.getAttribute('data-lang-path');
+		if (country && path) {
+			supportedLocales[country.toUpperCase()] = path;
+		}
+	});
 
 	const STORAGE_KEY = 'userLocale';
 	const REDIRECT_KEY = 'redirectedByIP';
@@ -46,6 +53,25 @@ const initGeolocationRedirect = async () => {
 		console.warn('Geolocation error by IP:', e);
 	}
 };
+
+const toggleLang = () => {
+	const lang = document.querySelector('.lang');
+	if (!lang) return;
+
+	const langLabel = lang.querySelector('.lang__label');
+	const langList = lang.querySelector('.lang__list');
+	const langListItems = langList.querySelectorAll('.lang__list-item');
+
+	langLabel.addEventListener('click', () => {
+		lang.classList.toggle('active');
+	});
+
+	document.addEventListener('click', (e) => {
+		if (!e.target.closest('.lang')) {
+			lang.classList.remove('active');
+		}
+	});
+}
 
 const toggleFaqItems = () => {
 	const faq = document.querySelector(".faq");
@@ -583,6 +609,7 @@ const dataAttributeLocalization = () => {
 
 window.onload = () => {
 	initGeolocationRedirect();
+	toggleLang();
 	headroom.init();
 	toggleFaqItems();
 	showMoreFaqItems();

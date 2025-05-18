@@ -11,6 +11,26 @@
   transform: translateY(-100%);
 }
 
+html[lang="en-US"] [data-lang="us"] .lang__list-item-icon {
+	display: block;
+}
+
+html[lang="da-DK"] [data-lang="dk"] .lang__list-item-icon {
+	display: block;
+}
+
+.lang.active .lang__label-icon {
+	transform: rotate(-180deg);
+}
+
+.lang.active .lang__list {
+	display: flex;
+}
+
+.lang__list-item.active .lang__list-item-icon {
+	display: block;
+}
+
 .faq__item.active .faq__item-icon-line_2 {
   transform: rotate(0deg);
 }
@@ -157,6 +177,10 @@
   top: 10px;
   left: 2px;
 	width: 30px;
+}
+
+[data-nav-menu-open] {
+  display: flex !important;
 }
 
 .modal [data-opacity-animation] {
